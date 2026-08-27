@@ -1,3 +1,8 @@
 <Solution>
-  <Project Path="DefinitelyNotProductionReady.Api/DefinitelyNotProductionReady.Api.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/DefinitelyNotProductionReady.Api/DefinitelyNotProductionReady.Api.csproj" />
+    <Project Path="src/DefinitelyNotProductionReady.Application/DefinitelyNotProductionReady.Application.csproj" />
+    <Project Path="src/DefinitelyNotProductionReady.Domain/DefinitelyNotProductionReady.Domain.csproj" />
+    <Project Path="src/DefinitelyNotProductionReady.Infrastructure/DefinitelyNotProductionReady.Infrastructure.csproj" />
+  </Folder>
 </Solution>
