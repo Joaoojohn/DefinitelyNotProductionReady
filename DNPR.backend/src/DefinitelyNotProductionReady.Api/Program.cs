@@ -1,41 +1,43 @@
+using System.Text.Json.Serialization;
+using DefinitelyNotProductionReady.Api.Middleware;
+using DefinitelyNotProductionReady.Application.PostApplication;
+using DefinitelyNotProductionReady.Application.Security;
+using DefinitelyNotProductionReady.Application.UserApplication;
+using DefinitelyNotProductionReady.Infrastructure.Persistence;
+using DefinitelyNotProductionReady.Infrastructure.Security;
+using PostApp = DefinitelyNotProductionReady.Application.PostApplication.PostApplication;
+using UserApp = DefinitelyNotProductionReady.Application.UserApplication.UserApplication;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddOpenApi();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<DomainExceptionHandler>();
+
+// Composition root: API wires Application use cases to Infrastructure implementations.
+// Application does not reference Infrastructure.
+builder.Services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
+builder.Services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+builder.Services.AddSingleton<IPostRepository, InMemoryPostRepository>();
+builder.Services.AddScoped<UserApp>();
+builder.Services.AddScoped<PostApp>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsEnvironment("Testing"))
+    app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
+app.MapControllers();
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+public partial class Program;

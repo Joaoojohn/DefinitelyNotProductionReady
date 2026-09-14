@@ -1,6 +1,31 @@
 @DefinitelyNotProductionReady.Api_HostAddress = http://localhost:5154
 
-GET {{DefinitelyNotProductionReady.Api_HostAddress}}/weatherforecast/
+POST {{DefinitelyNotProductionReady.Api_HostAddress}}/users
+Content-Type: application/json
+
+{
+  "nickName": "alice",
+  "fullName": "Alice Doe",
+  "password": "super-secret",
+  "email": "alice@example.com",
+  "phoneNumber": "11999999999",
+  "birthDate": "1998-01-15"
+}
+
+###
+
+GET {{DefinitelyNotProductionReady.Api_HostAddress}}/users/00000000-0000-0000-0000-000000000000
 Accept: application/json
+
+###
+
+POST {{DefinitelyNotProductionReady.Api_HostAddress}}/posts
+Content-Type: application/json
+
+{
+  "userId": "00000000-0000-0000-0000-000000000000",
+  "content": "Hello, playground.",
+  "type": "Text"
+}
 
 ###

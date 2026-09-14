@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DefinitelyNotProductionReady.Application\DefinitelyNotProductionReady.Application.csproj" />
+    <ProjectReference Include="..\DefinitelyNotProductionReady.Infrastructure\DefinitelyNotProductionReady.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
