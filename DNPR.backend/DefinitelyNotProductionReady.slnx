@@ -5,4 +5,8 @@
     <Project Path="src/DefinitelyNotProductionReady.Domain/DefinitelyNotProductionReady.Domain.csproj" />
     <Project Path="src/DefinitelyNotProductionReady.Infrastructure/DefinitelyNotProductionReady.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DefinitelyNotProductionReady.UnitTests/DefinitelyNotProductionReady.UnitTests.csproj" />
+    <Project Path="tests/DefinitelyNotProductionReady.IntegrationTests/DefinitelyNotProductionReady.IntegrationTests.csproj" />
+  </Folder>
 </Solution>
